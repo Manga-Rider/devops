@@ -5,8 +5,9 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/java -jar /home/jenkins/demo.jar
+Environment="JAVA_HOME=/lib/jvm/jdk-21-oracle-x64"
 EnvironmentFile=/home/jenkins/backend.conf
+ExecStart=/lib/jvm/jdk-21-oracle-x64/bin/java -jar /home/jenkins/backend.jar
 RemainAfterExit=yes
 
 [Install]
