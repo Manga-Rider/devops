@@ -40,14 +40,14 @@ pipeline {
 					rm ./backend.jar || true
                     cp ./target/demo*.jar ../../backend.jar
 					rm ./backend.conf || true
-					echo APPLICATION_PORT="${APPLICATION_PORT}" >> backend.conf
-                    echo DB_URL="${DB_URL}" >> backend.conf
-                    echo DB_USER="${DB_USER}" >> backend.conf
-                    echo DB_PASSWORD="${DB_PASSWORD}" >> backend.conf
-                    echo AWS_ACCESS_KEY="${AWS_ACCESS_KEY}" >> backend.conf
-                    echo AWS_SECRET_KEY="${AWS_SECRET_KEY}" >> backend.conf
-                    echo AWS_BUCKET="${AWS_BUCKET}" >> backend.conf
-                    echo AWS_REGION="${AWS_REGION}" >> backend.conf
+					echo APPLICATION_PORT="${APPLICATION_PORT}" >> ../../backend.conf
+                    echo DB_URL="${DB_URL}" >> ../../backend.conf
+                    echo DB_USER="${DB_USER}" >> ../../backend.conf
+                    echo DB_PASSWORD="${DB_PASSWORD}" >> ../../backend.conf
+                    echo AWS_ACCESS_KEY="${AWS_ACCESS_KEY}" >> ../../backend.conf
+                    echo AWS_SECRET_KEY="${AWS_SECRET_KEY}" >> ../../backend.conf
+                    echo AWS_BUCKET="${AWS_BUCKET}" >> ../../backend.conf
+                    echo AWS_REGION="${AWS_REGION}" >> ../../backend.conf
                     sudo systemctl enable manga-rider-backend --now
                 '''
             }

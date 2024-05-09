@@ -7,9 +7,7 @@ After=network.target
 Type=simple
 ExecStart=/usr/bin/java -jar /home/jenkins/demo.jar
 EnvironmentFile=/home/jenkins/backend.conf
-TimeoutStartSec=0
 RemainAfterExit=yes
-Restart=on-failure
 
 [Install]
 WantedBy=default.target
