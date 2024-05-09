@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     environment {
         APPLICATION_PORT = '8080'
         DB_URL = credentials('DB_URL')
@@ -12,32 +12,35 @@ pipeline {
     }
     stages {
         stage('Build') {
-            agent { 'jdk-21' }
-            git branch: 'main', url: 'https://github.com/Manga-Rider/backend.git'
-            sh '''
-                export JAVA_HOME="/lib/jvm/jdk-21-oracle-x64"
-                
-                export APPLICATION_PORT="${APPLICATION_PORT}"
-                export DB_URL="${DB_URL}"
-                export DB_USER="${DB_USER}"
-                export DB_PASSWORD="${DB_PASSWORD}"
-                export AWS_ACCESS_KEY="${AWS_ACCESS_KEY}"
-                export AWS_SECRET_KEY="${AWS_SECRET_KEY}"
-                export AWS_BUCKET="${AWS_BUCKET}"
-                export AWS_REGION="${AWS_REGION}"
-            
-                chmod 744 ./mvnw
-                rm -f .env
-                echo "SPRING_PROFILES_ACTIVE=prod" >> .env
-                ./mvnw clean package
-            '''
+            steps {
+                git branch: 'main', url: 'https://github.com/Manga-Rider/backend.git'
+                sh '''
+                    export JAVA_HOME="/lib/jvm/jdk-21-oracle-x64"
+                    
+                    export APPLICATION_PORT="${APPLICATION_PORT}"
+                    export DB_URL="${DB_URL}"
+                    export DB_USER="${DB_USER}"
+                    export DB_PASSWORD="${DB_PASSWORD}"
+                    export AWS_ACCESS_KEY="${AWS_ACCESS_KEY}"
+                    export AWS_SECRET_KEY="${AWS_SECRET_KEY}"
+                    export AWS_BUCKET="${AWS_BUCKET}"
+                    export AWS_REGION="${AWS_REGION}"
+                    
+                    chmod 744 ./mvnw
+                    rm -f .env
+                    echo "SPRING_PROFILES_ACTIVE=prod" >> .env
+                    ./mvnw clean package
+                    cp ./target/demo*.jar ../../backend.jar
+                '''
+            }
         }
         stage('Deploy') {
-            agent { 'java && jdk-21 && server' }
-            sh '''
-                sudo systemctl stop manga-rider
-                sudo systemctl start manga-rider
-            '''
+            steps {
+                sh '''
+                    sudo systemctl stop manga-rider-backend || true
+                    sudo systemctl enable manga-rider-backend --now
+                '''
+            }
         }
     }
 }

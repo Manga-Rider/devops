@@ -1,0 +1,14 @@
+[Unit]
+Description=Manga Rider backend systemd service
+DefaultDependencies=no
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=java -jar /home/jenkins/demo.jar
+TimeoutStartSec=0
+RemainAfterExit=yes
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
