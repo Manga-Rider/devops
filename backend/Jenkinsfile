@@ -37,7 +37,7 @@ pipeline {
             steps {
                 sh '''
                     sudo systemctl stop manga-rider-backend || true
-					rm ./backend.jar
+					rm ./backend.jar || true
                     cp ./target/demo*.jar ../../backend.jar
                     sudo systemctl enable manga-rider-backend --now
                 '''
