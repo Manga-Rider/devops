@@ -30,7 +30,6 @@ pipeline {
                     rm -f .env
                     echo "SPRING_PROFILES_ACTIVE=prod" >> .env
                     ./mvnw clean package
-                    cp ./target/demo*.jar ../../backend.jar
                 '''
             }
         }
@@ -38,6 +37,8 @@ pipeline {
             steps {
                 sh '''
                     sudo systemctl stop manga-rider-backend || true
+					rm ./backend.jar
+                    cp ./target/demo*.jar ../../backend.jar
                     sudo systemctl enable manga-rider-backend --now
                 '''
             }
