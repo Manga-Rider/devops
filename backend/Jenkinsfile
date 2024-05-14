@@ -27,8 +27,6 @@ pipeline {
                     export AWS_REGION="${AWS_REGION}"
                     
                     chmod 744 ./mvnw
-                    rm -f .env
-                    echo "SPRING_PROFILES_ACTIVE=prod" >> .env
                     ./mvnw clean package
                 '''
             }
@@ -37,9 +35,9 @@ pipeline {
             steps {
                 sh '''
                     sudo systemctl stop manga-rider-backend || true
-					rm ./backend.jar || true
+					rm ../../backend.jar || true
                     cp ./target/demo*.jar ../../backend.jar
-					rm ./backend.conf || true
+					rm ../../backend.conf || true
 					echo APPLICATION_PORT="${APPLICATION_PORT}" >> ../../backend.conf
                     echo DB_URL="${DB_URL}" >> ../../backend.conf
                     echo DB_USER="${DB_USER}" >> ../../backend.conf
